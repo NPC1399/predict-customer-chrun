@@ -1,0 +1,7 @@
+2026-10-25 02:03:06,018 - INFO - Data imported successfully.
+2026-10-25 02:03:06,227 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-25 02:03:06,233 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-25 02:03:07,256 - INFO - EDA performed successfully.
+2026-10-25 02:03:07,281 - INFO - Encoding performed successfully.
+2026-10-25 02:03:07,319 - INFO - Feature engineering performed successfully.
+2026-10-25 02:03:16,479 - INFO - Models trained successfully.
