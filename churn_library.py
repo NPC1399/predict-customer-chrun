@@ -171,6 +171,42 @@ def perform_feature_engineering(df, response):
     )
     return x_train, x_test, y_train, y_test
 
+def _save_classification_report_as_image(
+        model_name,
+        y_train,
+        y_train_preds,
+        y_test,
+        y_test_preds,
+        output_path
+    ):
+    """
+    Save classification report as an image.
+    input:
+            model_name: name of the model
+            y_train: true labels for training set
+            y_train_preds: predicted labels for training set
+            y_test: true labels for test set
+            y_test_preds: predicted labels for test set
+            output_path: path to save the image
+    output:
+            None
+    """
+    fig, axes = plt.subplots(2, 1, figsize=(6, 8))
+    splits = [
+        ("Train", y_train, y_train_preds),
+        ("Test", y_test, y_test_preds)
+    ]
+    for ax, (split_name, y_true, y_pred) in zip(axes, splits):
+        ax.set_title(
+            f"{model_name} {split_name} Classification Report",
+            loc="left",
+            fontweight="bold"
+        )
+        ax.text(0, 1, classification_report(y_true, y_pred),
+                va="top", fontfamily="monospace", fontsize=10)
+        ax.axis("off")
+    fig.tight_layout()
+    save_fig(output_path)
 
 def classification_report_image(
     y_train,
@@ -191,22 +227,24 @@ def classification_report_image(
     create_output_directories()
 
     # Report for Random Forest
-    plt.figure(figsize=(8, 6))
-    plt.text(0.01, 1.25, "Random Forest Train", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.75, classification_report(y_train, y_train_preds_rf), fontsize=10)
-    plt.text(0.01, 0.6, "Random Forest Test", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.1, classification_report(y_test, y_test_preds_rf), fontsize=10)
-    plt.axis("off")
-    save_fig(os.path.join(RESULTS_DIR, "random_forest_classification_report.png"))
+    _save_classification_report_as_image(
+        "Random Forest",
+        y_train,
+        y_train_preds_rf,
+        y_test,
+        y_test_preds_rf,
+        os.path.join(RESULTS_DIR, "random_forest_classification_report.png")
+    )
 
     # Report for Logistic Regression
-    plt.figure(figsize=(8, 6))
-    plt.text(0.01, 1.25, "Logistic Regression Train", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.75, classification_report(y_train, y_train_preds_lr), fontsize=10)
-    plt.text(0.01, 0.6, "Logistic Regression Test", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.1, classification_report(y_test, y_test_preds_lr), fontsize=10)
-    plt.axis("off")
-    save_fig(os.path.join(RESULTS_DIR, "logistic_regression_classification_report.png"))
+    _save_classification_report_as_image(
+        "Logistic Regression",
+        y_train,
+        y_train_preds_lr,
+        y_test,
+        y_test_preds_lr,
+        os.path.join(RESULTS_DIR, "logistic_regression_classification_report.png")
+    )
 
 
 def feature_importance_plot(model, x_data, output_pth):
