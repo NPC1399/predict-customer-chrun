@@ -1,8 +1,3 @@
-# TODO:
-# Add a module-level docstring describing:
-# - Purpose of this file
-# - Author
-# - Date created
 '''
 This module contains functions for performing churn prediction analysis.
 Author: Phumiphat Charoentananuwat
@@ -12,17 +7,6 @@ Date created: 2026-10-24
 import os
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
-
-# TODO: add required imports
-# Example:
-# import joblib
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# from sklearn.model_selection import train_test_split
-# from sklearn.metrics import classification_report, RocCurveDisplay
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.ensemble import RandomForestClassifier
 
 import joblib
 import pandas as pd
@@ -68,12 +52,10 @@ def import_data(pth):
     output:
             df: pandas dataframe
     """
-    # TODO: implement
-    # Hint:
-    # df = pd.read_csv(pth)
-    # return df
+
     try:
         df = pd.read_csv(pth)
+
         # Convert the 'Attrition_Flag' column to a binary 'Churn' column
         df["Churn"] = df["Attrition_Flag"].apply(
                 lambda val: 0 if val == "Existing Customer" else 1
@@ -109,13 +91,6 @@ def perform_eda(df):
     """
     create_output_directories()
 
-    # TODO: implement
-    # Suggested steps:
-    # 1. Create a binary churn column if needed
-    # 2. Plot key distributions
-    # 3. Plot a correlation heatmap
-    # 4. Save figures into EDA_DIR
-
     # Churn distribution
     plt.figure(figsize=(8, 6))
     sns.countplot(x="Churn", data=df)
@@ -148,7 +123,6 @@ def perform_eda(df):
     save_fig(os.path.join(EDA_DIR, "correlation_heatmap.png"))
 
 
-
 def encoder_helper(df, category_lst, response):
     """
     Encode categorical features.
@@ -160,7 +134,7 @@ def encoder_helper(df, category_lst, response):
     output:
             df: updated dataframe
     """
-    # TODO: implement
+
     df = df.copy()
     for category in category_lst:
         # Create a new column for the mean of the response variable for each category
@@ -181,7 +155,6 @@ def perform_feature_engineering(df, response):
     output:
               x_train, x_test, y_train, y_test
     """
-    # TODO: implement
     keep_cols = [
         'Customer_Age', 'Dependent_count', 'Months_on_book',
         'Total_Relationship_Count', 'Months_Inactive_12_mon',
@@ -216,8 +189,6 @@ def classification_report_image(
             None
     """
     create_output_directories()
-
-    # TODO: implement
     
     # Report for Random Forest
     plt.figure(figsize=(8, 6))
@@ -247,7 +218,6 @@ def feature_importance_plot(model, x_data, output_pth):
     output:
             None
     """
-    # TODO: implement
     
     # For Random Forest, we can use the feature_importances_ attribute
     if hasattr(model, "feature_importances_"):
@@ -271,9 +241,8 @@ def train_models(x_train, x_test, y_train, y_test):
     output:
             None
     """
+    
     create_output_directories()
-
-    # TODO: implement
     
     # grid search
     rfc = RandomForestClassifier(random_state=42)
