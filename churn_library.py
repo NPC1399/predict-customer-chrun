@@ -231,6 +231,41 @@ def feature_importance_plot(model, x_data, output_pth):
         plt.xticks(range(x_data.shape[1]), names, rotation=90)
         save_fig(output_pth)
 
+def roc_curve_plot(lr_model, rf_model, x_test, y_test, output_pth):
+    """
+    Save ROC curve plot.
+
+    input:
+            y_test, y_test_preds_lr, y_test_preds_rf
+    output:
+            None
+    """
+    create_output_directories()
+    
+    plt.figure(figsize=(8, 6))
+    ax = plt.gca()
+
+    # Logistic Regression ROC Curve
+    RocCurveDisplay.from_estimator(
+        lr_model, 
+        x_test, 
+        y_test, 
+        name="Logistic Regression",
+        ax=ax
+    )
+
+    # Random Forest ROC Curve
+    RocCurveDisplay.from_estimator(
+        rf_model, 
+        x_test, 
+        y_test, 
+        name="Random Forest",
+        ax=ax
+    )
+    
+    plt.title("ROC Curve Comparison")
+    save_fig(os.path.join(RESULTS_DIR, "roc_curve_comparison.png"))
+
 
 def train_models(x_train, x_test, y_train, y_test):
     """
@@ -241,7 +276,7 @@ def train_models(x_train, x_test, y_train, y_test):
     output:
             None
     """
-    
+
     create_output_directories()
     
     # grid search
@@ -301,6 +336,13 @@ def train_models(x_train, x_test, y_train, y_test):
         os.path.join(RESULTS_DIR, "feature_importance.png")
     )
 
+    # ROC Curve Plot
+    roc_curve_plot(
+        lrc, 
+        cv_rfc.best_estimator_, 
+        x_test, y_test, 
+        os.path.join(RESULTS_DIR, "roc_curve_comparison.png")
+    )
 
 if __name__ == "__main__":
     create_output_directories()
