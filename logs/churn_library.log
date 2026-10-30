@@ -5,3 +5,11 @@
 2026-10-25 02:03:07,281 - INFO - Encoding performed successfully.
 2026-10-25 02:03:07,319 - INFO - Feature engineering performed successfully.
 2026-10-25 02:03:16,479 - INFO - Models trained successfully.
+2026-10-30 18:44:24,344 - INFO - Data imported successfully.
+2026-10-30 18:44:24,527 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-30 18:44:24,532 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-30 18:44:25,488 - INFO - EDA performed successfully.
+2026-10-30 18:44:25,512 - INFO - Encoding performed successfully.
+2026-10-30 18:44:25,547 - INFO - Feature engineering performed successfully.
+2026-10-30 18:44:34,822 - INFO - Models trained successfully.
+2026-10-30 18:44:34,822 - INFO - Trained artifacts saved successfully.

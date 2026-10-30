@@ -108,7 +108,7 @@ def perform_eda(df):
     df.Marital_Status.value_counts('normalize').plot(kind='bar')
     plt.title("Marital Status Distribution")
     save_fig(os.path.join(EDA_DIR, "marital_status_distribution.png"))
-    
+
     # Total transaction distribution
     plt.figure(figsize=(8, 6))
     sns.histplot(df["Total_Trans_Ct"], bins=30, kde=True)
@@ -142,7 +142,7 @@ def encoder_helper(df, category_lst, response):
         new_col_name = f"{category}_{response}"
         df[new_col_name] = df[category].map(mean_response)
     return df
-    
+
 
 
 def perform_feature_engineering(df, response):
@@ -165,9 +165,9 @@ def perform_feature_engineering(df, response):
         'Income_Category_Churn', 'Card_Category_Churn',
     ]
     y = df[response]
-    X = df[keep_cols]
+    x = df[keep_cols]
     x_train, x_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42, stratify=y
+        x, y, test_size=0.3, random_state=42, stratify=y
     )
     return x_train, x_test, y_train, y_test
 
@@ -189,7 +189,7 @@ def classification_report_image(
             None
     """
     create_output_directories()
-    
+
     # Report for Random Forest
     plt.figure(figsize=(8, 6))
     plt.text(0.01, 1.25, "Random Forest Train", fontsize=10, fontweight="bold")
@@ -218,7 +218,7 @@ def feature_importance_plot(model, x_data, output_pth):
     output:
             None
     """
-    
+
     # For Random Forest, we can use the feature_importances_ attribute
     if hasattr(model, "feature_importances_"):
         importances = model.feature_importances_
@@ -241,30 +241,30 @@ def roc_curve_plot(lr_model, rf_model, x_test, y_test, output_pth):
             None
     """
     create_output_directories()
-    
+
     plt.figure(figsize=(8, 6))
     ax = plt.gca()
 
     # Logistic Regression ROC Curve
     RocCurveDisplay.from_estimator(
-        lr_model, 
-        x_test, 
-        y_test, 
+        lr_model,
+        x_test,
+        y_test,
         name="Logistic Regression",
         ax=ax
     )
 
     # Random Forest ROC Curve
     RocCurveDisplay.from_estimator(
-        rf_model, 
-        x_test, 
-        y_test, 
+        rf_model,
+        x_test,
+        y_test,
         name="Random Forest",
         ax=ax
     )
-    
+
     plt.title("ROC Curve Comparison")
-    save_fig(os.path.join(RESULTS_DIR, "roc_curve_comparison.png"))
+    save_fig(output_pth)
 
 
 def train_models(x_train, x_test, y_train, y_test):
@@ -278,11 +278,11 @@ def train_models(x_train, x_test, y_train, y_test):
     """
 
     create_output_directories()
-    
+
     # grid search
     rfc = RandomForestClassifier(random_state=42)
     lrc = Pipeline([
-            ("scaler", StandardScaler()), 
+            ("scaler", StandardScaler()),
             ("model", LogisticRegression())
         ])
 
@@ -312,7 +312,7 @@ def train_models(x_train, x_test, y_train, y_test):
     # Save the trained models
     joblib.dump(cv_rfc.best_estimator_, os.path.join(MODELS_DIR, "rfc_model.pkl"))
     joblib.dump(lrc, os.path.join(MODELS_DIR, "logistic_model.pkl"))
-    
+
     y_train_preds_rf = cv_rfc.predict(x_train)
     y_test_preds_rf = cv_rfc.predict(x_test)
 
@@ -331,20 +331,20 @@ def train_models(x_train, x_test, y_train, y_test):
 
     # Feature importance plot for Random Forest
     feature_importance_plot(
-        cv_rfc.best_estimator_, 
-        x_train, 
+        cv_rfc.best_estimator_,
+        x_train,
         os.path.join(RESULTS_DIR, "feature_importance.png")
     )
 
     # ROC Curve Plot
     roc_curve_plot(
-        lrc, 
-        cv_rfc.best_estimator_, 
-        x_test, y_test, 
+        lrc,
+        cv_rfc.best_estimator_,
+        x_test, y_test,
         os.path.join(RESULTS_DIR, "roc_curve_comparison.png")
     )
 
-if __name__ == "__main__":
+def main():
     create_output_directories()
 
     df = import_data(DATA_PATH)
@@ -362,3 +362,6 @@ if __name__ == "__main__":
     df = encoder_helper(df, category_columns, "Churn")
     x_train, x_test, y_train, y_test = perform_feature_engineering(df, "Churn")
     train_models(x_train, x_test, y_train, y_test)
+
+if __name__ == "__main__":
+    main()
