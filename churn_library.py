@@ -193,18 +193,18 @@ def classification_report_image(
     # Report for Random Forest
     plt.figure(figsize=(8, 6))
     plt.text(0.01, 1.25, "Random Forest Train", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.05, classification_report(y_train, y_train_preds_rf), fontsize=10)
+    plt.text(0.01, 0.75, classification_report(y_train, y_train_preds_rf), fontsize=10)
     plt.text(0.01, 0.6, "Random Forest Test", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.7, classification_report(y_test, y_test_preds_rf), fontsize=10)
+    plt.text(0.01, 0.1, classification_report(y_test, y_test_preds_rf), fontsize=10)
     plt.axis("off")
     save_fig(os.path.join(RESULTS_DIR, "random_forest_classification_report.png"))
 
     # Report for Logistic Regression
     plt.figure(figsize=(8, 6))
     plt.text(0.01, 1.25, "Logistic Regression Train", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.05, classification_report(y_train, y_train_preds_lr), fontsize=10)
+    plt.text(0.01, 0.75, classification_report(y_train, y_train_preds_lr), fontsize=10)
     plt.text(0.01, 0.6, "Logistic Regression Test", fontsize=10, fontweight="bold")
-    plt.text(0.01, 0.7, classification_report(y_test, y_test_preds_lr), fontsize=10)
+    plt.text(0.01, 0.1, classification_report(y_test, y_test_preds_lr), fontsize=10)
     plt.axis("off")
     save_fig(os.path.join(RESULTS_DIR, "logistic_regression_classification_report.png"))
 
